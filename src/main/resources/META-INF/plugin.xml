@@ -1,0 +1,23 @@
+<idea-plugin>
+    <id>com.max.medvedev.git-helper</id>
+
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-name -->
+    <name>Advanced Git Features</name>
+
+    <vendor>Max Medvedev</vendor>
+
+    <description><![CDATA[
+        Adds several useful actions to Git IntelliJ support which are not available in the main Git plugin.
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>Git4Idea</depends>
+
+    <resource-bundle>messages.GitHelperBundle</resource-bundle>
+
+    <extensions defaultExtensionNs="com.intellij">
+
+    </extensions>
+
+</idea-plugin>
