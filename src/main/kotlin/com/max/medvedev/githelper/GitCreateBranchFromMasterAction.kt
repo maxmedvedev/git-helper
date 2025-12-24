@@ -38,8 +38,9 @@ internal class GitCreateBranchFromMasterAction : DumbAwareAction() {
     private fun createNewBranch(data: Data.Enabled) {
         // Capture current branches before showing dialog
         val currentBranches = data.repositories.associateWithNotNull { it.currentBranch }
+        val currentBranchName = currentBranches.values.firstOrNull()?.name
 
-        val dialog = CreateBranchFromMasterDialog(data.project, data.repositories, data.defaultBranch)
+        val dialog = CreateBranchFromMasterDialog(data.project, data.repositories, data.defaultBranch, currentBranchName)
         if (!dialog.showAndGet()) return
 
         val branchName = dialog.branchName
@@ -132,10 +133,11 @@ internal class GitCreateBranchFromMasterAction : DumbAwareAction() {
 private class CreateBranchFromMasterDialog(
     private val project: Project,
     private val repositories: List<GitRepository>,
-    defaultBranch: String
+    defaultBranch: String,
+    private val initialBranchName: String? = null
 ) : DialogWrapper(project) {
 
-    var branchName: String = ""
+    var branchName: String = initialBranchName ?: ""
         private set
 
     var shouldDeleteCurrentBranch: Boolean = false
@@ -154,7 +156,7 @@ private class CreateBranchFromMasterDialog(
         textField = TextFieldWithCompletion(
             /* project = */ project,
             /* provider = */ completionProvider,
-            /* value = */ "",
+            /* value = */ initialBranchName ?: "",
             /* oneLineMode = */ true,
             /* autoPopup = */ true,
             /* forceAutoPopup = */ false,
