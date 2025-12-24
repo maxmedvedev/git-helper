@@ -22,7 +22,7 @@
 
     <actions resource-bundle="messages.GitHelperBundle">
         <action id="Git.CreateBranchFromMaster"
-                class="com.max.medvedev.githelper.GitCreateBranchFromMasterAction"/>
+                class="com.max.medvedev.githelper.newBranch.GitCreateBranchFromMasterAction"/>
     </actions>
 
 </idea-plugin>

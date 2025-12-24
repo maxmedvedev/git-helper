@@ -1,4 +1,4 @@
-package com.max.medvedev.githelper
+package com.max.medvedev.githelper.newBranch
 
 import com.intellij.codeInsight.completion.CompletionParameters
 import com.intellij.codeInsight.completion.CompletionResultSet
@@ -17,6 +17,7 @@ import com.intellij.util.textCompletion.DefaultTextCompletionValueDescriptor
 import com.intellij.util.textCompletion.TextCompletionProviderBase
 import com.intellij.util.textCompletion.TextFieldWithCompletion
 import com.intellij.util.ui.JBUI
+import com.max.medvedev.githelper.GitHelperBundle
 import fleet.util.associateWithNotNull
 import git4idea.branch.GitBrancher
 import git4idea.repo.GitRepository
