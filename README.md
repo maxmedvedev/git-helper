@@ -1,117 +1,157 @@
-# IntelliJ Platform Plugin Template
+# Advanced Git Features (IntelliJ IDEA Plugin)
 
-[![Twitter Follow](https://img.shields.io/badge/follow-%40JBPlatform-1DA1F2?logo=twitter)](https://twitter.com/JBPlatform)
-[![Developers Forum](https://img.shields.io/badge/JetBrains%20Platform-Join-blue)][jb:forum]
+Advanced Git Features is an IntelliJ IDEA plugin that adds a few focused, high–leverage Git actions on top of the built‑in Git integration.
 
-## Plugin template structure
+The goal is to streamline frequent branch operations that are otherwise a bit tedious through the standard UI.
 
-A generated project contains the following content structure:
+---
 
-```
-.
-├── .run/                   Predefined Run/Debug Configurations
-├── build/                  Output build directory
-├── gradle
-│   ├── wrapper/            Gradle Wrapper
-├── src                     Plugin sources
-│   ├── main
-│   │   ├── kotlin/         Kotlin production sources
-│   │   └── resources/      Resources - plugin.xml, icons, messages
-├── .gitignore              Git ignoring rules
-├── build.gradle.kts        Gradle build configuration
-├── gradle.properties       Gradle configuration properties
-├── gradlew                 *nix Gradle Wrapper script
-├── gradlew.bat             Windows Gradle Wrapper script
-├── README.md               README
-└── settings.gradle.kts     Gradle project settings
-```
+## Features
 
-In addition to the configuration files, the most crucial part is the `src` directory, which contains our implementation
-and the manifest for our plugin – [plugin.xml][file:plugin.xml].
+### 1. Create Branch from `master` (or main base branch)
 
-> [!NOTE]
-> To use Java in your plugin, create the `/src/main/java` directory.
+**Action ID:** `Git.CreateBranchFromMaster`  
+**Location:** Git branch popup / Git menu (depending on your keymap and menus)
 
-## Plugin configuration file
+Creates a new branch directly from `master` (or your designated base branch), regardless of which branch is currently checked out.
 
-The plugin configuration file is a [plugin.xml][file:plugin.xml] file located in the `src/main/resources/META-INF`
-directory.
-It provides general information about the plugin, its dependencies, extensions, and listeners.
+Typical use cases:
 
-You can read more about this file in the [Plugin Configuration File][docs:plugin.xml] section of our documentation.
+- Starting a new feature from `master` while currently working on another branch.
+- Quickly resetting a feature branch to match `master` by recreating it.
 
-If you're still not quite sure what this is all about, read our
-introduction: [What is the IntelliJ Platform?][docs:intro]
+> The plugin assumes a conventional setup where `master` (or `main`) is your integration branch. Behavior may depend on your repository configuration.
 
-$H$H Predefined Run/Debug configurations
+---
 
-Within the default project structure, there is a `.run` directory provided containing predefined *Run/Debug
-configurations* that expose corresponding Gradle tasks:
+### 2. Delete Current Branch and Switch
 
-| Configuration name | Description                                                                                                                                                                         |
-|--------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Run Plugin         | Runs [`:runIde`][gh:intellij-platform-gradle-plugin-runIde] IntelliJ Platform Gradle Plugin task. Use the *Debug* icon for plugin debugging.                                        |
-| Run Tests          | Runs [`:test`][gradle:lifecycle-tasks] Gradle task.                                                                                                                                 |
-| Run Verifications  | Runs [`:verifyPlugin`][gh:intellij-platform-gradle-plugin-verifyPlugin] IntelliJ Platform Gradle Plugin task to check the plugin compatibility against the specified IntelliJ IDEs. |
+**Action ID:** `Git.DeleteCurrentBranchAndSwitch.External`  
+**Location:** Git branch popup → **Delete current branch and switch**
 
-> [!NOTE]
-> You can find the logs from the running task in the `idea.log` tab.
+Deletes the currently checked-out branch and immediately switches to another branch (you’ll be prompted to choose a target branch, typically `master`/`main` or another safe branch).
 
-## Publishing the plugin
+Typical use cases:
 
-> [!TIP]
-> Make sure to follow all guidelines listed in [Publishing a Plugin][docs:publishing] to follow all recommended and
-> required steps.
+- Cleaning up a short‑lived feature or experiment branch after it has been merged.
+- Quickly returning to a stable branch while removing the now‑unneeded local branch.
 
-Releasing a plugin to [JetBrains Marketplace](https://plugins.jetbrains.com) is a straightforward operation that uses
-the `publishPlugin` Gradle task provided by
-the [intellij-platform-gradle-plugin][gh:intellij-platform-gradle-plugin-docs].
+Safety considerations:
 
-You can also upload the plugin to the [JetBrains Plugin Repository](https://plugins.jetbrains.com/plugin/upload)
-manually via UI.
+- The plugin delegates actual Git operations to IntelliJ’s Git support, so standard safety checks (like unmerged changes) still apply.
+- You may be prompted to confirm the deletion if the branch is not fully merged.
 
-## Useful links
+---
 
-- [IntelliJ Platform SDK Plugin SDK][docs]
-- [IntelliJ Platform Gradle Plugin Documentation][gh:intellij-platform-gradle-plugin-docs]
-- [IntelliJ Platform Explorer][jb:ipe]
-- [JetBrains Marketplace Quality Guidelines][jb:quality-guidelines]
-- [IntelliJ Platform UI Guidelines][jb:ui-guidelines]
-- [JetBrains Marketplace Paid Plugins][jb:paid-plugins]
-- [IntelliJ SDK Code Samples][gh:code-samples]
+## Installation
 
-[docs]: https://plugins.jetbrains.com/docs/intellij
+### From source (development)
 
-[docs:intro]: https://plugins.jetbrains.com/docs/intellij/intellij-platform.html?from=IJPluginTemplate
+1. Clone the repository:
 
-[docs:plugin.xml]: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html?from=IJPluginTemplate
+   ```bash
+   git clone https://github.com/your-org-or-user/git-helper.git
+   cd git-helper
+   ```
 
-[docs:publishing]: https://plugins.jetbrains.com/docs/intellij/publishing-plugin.html?from=IJPluginTemplate
+2. Build and run in a sandbox IDE:
 
-[file:plugin.xml]: ./src/main/resources/META-INF/plugin.xml
+   ```bash
+   ./gradlew runIde
+   ```
 
-[gh:code-samples]: https://github.com/JetBrains/intellij-sdk-code-samples
+   This starts a separate IntelliJ instance with the plugin loaded.
 
-[gh:intellij-platform-gradle-plugin]: https://github.com/JetBrains/intellij-platform-gradle-plugin
+3. To build a distributable plugin ZIP:
 
-[gh:intellij-platform-gradle-plugin-docs]: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin.html
+   ```bash
+   ./gradlew buildPlugin
+   ```
 
-[gh:intellij-platform-gradle-plugin-runIde]: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-tasks.html#runIde
+   The ZIP will be in `build/distributions/`.
 
-[gh:intellij-platform-gradle-plugin-verifyPlugin]: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-tasks.html#verifyPlugin
+---
 
-[gradle:lifecycle-tasks]: https://docs.gradle.org/current/userguide/java_plugin.html#lifecycle_tasks
+## Usage
 
-[jb:github]: https://github.com/JetBrains/.github/blob/main/profile/README.md
+After installing the plugin and restarting IntelliJ IDEA:
 
-[jb:forum]: https://platform.jetbrains.com/
+1. Open a project with Git enabled.
+2. Use the **Git Branches** popup (usually accessible from the bottom toolbar or via `Ctrl+` backtick / `Ctrl+` accent, depending on keymap).
+3. Look for:
 
-[jb:quality-guidelines]: https://plugins.jetbrains.com/docs/marketplace/quality-guidelines.html
+    - **Create Branch from Master** (or equivalent wording mapped by your localization).
+    - **Delete Current Branch and Switch** within the Git branches context.
 
-[jb:paid-plugins]: https://plugins.jetbrains.com/docs/marketplace/paid-plugins-marketplace.html
+You can also bind custom keyboard shortcuts:
 
-[jb:quality-guidelines]: https://plugins.jetbrains.com/docs/marketplace/quality-guidelines.html
+1. Go to **Settings / Preferences → Keymap**.
+2. Search for the action IDs:
+    - `Git.CreateBranchFromMaster`
+    - `Git.DeleteCurrentBranchAndSwitch.External`
+3. Assign shortcuts as desired.
 
-[jb:ipe]: https://jb.gg/ipe
+---
 
-[jb:ui-guidelines]: https://jetbrains.github.io/ui
+## Requirements
+
+- **IntelliJ Platform:** Compatible with IDEs that include the Git4Idea plugin (e.g., IntelliJ IDEA Community/Ultimate).
+- **Git Integration:** Built‑in Git support must be enabled.
+- **JDK:** Project is built against Java 21.
+- **Kotlin:** Uses Kotlin 2.3 for plugin sources.
+
+Exact IDE version compatibility is controlled by the plugin’s Gradle and `plugin.xml` configuration.
+
+---
+
+## Development
+
+This is a standard Gradle‑based IntelliJ Platform plugin project.
+
+Common Gradle tasks:
+
+- Run plugin in sandbox:
+
+  ```bash
+  ./gradlew runIde
+  ```
+
+- Run tests:
+
+  ```bash
+  ./gradlew test
+  ```
+
+- Verify plugin (basic compatibility/structure checks):
+
+  ```bash
+  ./gradlew verifyPlugin
+  ```
+
+- Build plugin distribution:
+
+  ```bash
+  ./gradlew buildPlugin
+  ```
+
+You can open the project directly in IntelliJ IDEA; the Gradle configuration will set up the IntelliJ Platform SDK and required dependencies.
+
+---
+
+## Contributing
+
+Contributions that improve usability, add small focused Git helpers, or enhance safety/UX around branch operations are welcome.
+
+1. Fork the repository.
+2. Create a feature branch.
+3. Implement and add tests where applicable.
+4. Open a pull request describing:
+    - The new action or change.
+    - Where it appears in the UI.
+    - Any edge cases or safety behavior.
+
+---
+
+## License
+
+Specify your license here (e.g., MIT, Apache 2.0) and include the license file in the repository.
