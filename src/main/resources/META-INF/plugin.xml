@@ -20,4 +20,9 @@
 
     </extensions>
 
+    <actions resource-bundle="messages.GitHelperBundle">
+        <action id="Git.CreateBranchFromMaster"
+                class="com.max.medvedev.githelper.GitCreateBranchFromMasterAction"/>
+    </actions>
+
 </idea-plugin>
