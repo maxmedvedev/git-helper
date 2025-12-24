@@ -23,6 +23,11 @@
     <actions resource-bundle="messages.GitHelperBundle">
         <action id="Git.CreateBranchFromMaster"
                 class="com.max.medvedev.githelper.newBranch.GitCreateBranchFromMasterAction"/>
+        <action id="Git.DeleteCurrentBranchAndSwitch.External"
+                class="com.max.medvedev.githelper.checkoutAndDelete.GitDeleteCurrentBranchAndSwitchAction">
+            <add-to-group group-id="Git.Branch" anchor="last"/>
+        </action>
+
     </actions>
 
 </idea-plugin>
