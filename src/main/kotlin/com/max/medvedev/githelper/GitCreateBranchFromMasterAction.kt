@@ -17,6 +17,7 @@ import com.intellij.util.textCompletion.DefaultTextCompletionValueDescriptor
 import com.intellij.util.textCompletion.TextCompletionProviderBase
 import com.intellij.util.textCompletion.TextFieldWithCompletion
 import com.intellij.util.ui.JBUI
+import fleet.util.associateWithNotNull
 import git4idea.branch.GitBrancher
 import git4idea.repo.GitRepository
 import git4idea.repo.GitRepositoryManager
@@ -35,17 +36,30 @@ internal class GitCreateBranchFromMasterAction : DumbAwareAction() {
     }
 
     private fun createNewBranch(data: Data.Enabled) {
+        // Capture current branches before showing dialog
+        val currentBranches = data.repositories.associateWithNotNull { it.currentBranch }
+
         val dialog = CreateBranchFromMasterDialog(data.project, data.repositories, data.defaultBranch)
         if (!dialog.showAndGet()) return
 
         val branchName = dialog.branchName
         if (branchName.isBlank()) return
 
-        GitBrancher.getInstance(data.project).checkoutNewBranchStartingFrom(
+        val brancher = GitBrancher.getInstance(data.project)
+
+        // First, checkout the new branch
+        brancher.checkoutNewBranchStartingFrom(
             branchName,
             data.defaultBranch,
             data.repositories,
-            null
+            {
+                // After successful checkout, delete the old branch if requested
+                if (dialog.shouldDeleteCurrentBranch && currentBranches.isNotEmpty()) {
+                    currentBranches.forEach { (repo, branch) ->
+                        brancher.deleteBranch(branch.name, listOf(repo))
+                    }
+                }
+            }
         )
     }
 
@@ -124,6 +138,9 @@ private class CreateBranchFromMasterDialog(
     var branchName: String = ""
         private set
 
+    var shouldDeleteCurrentBranch: Boolean = false
+        private set
+
     private val validator = GitRefNameValidator.getInstance()
     private lateinit var textField: TextFieldWithCompletion
 
@@ -162,6 +179,15 @@ private class CreateBranchFromMasterDialog(
                     .focused()
                     .applyToComponent {
                         selectAll()
+                    }
+            }
+            row {
+                checkBox(GitHelperBundle.message("action.Git.CreateBranchFromMaster.dialog.delete.current.branch"))
+                    .applyToComponent {
+                        isSelected = false
+                    }
+                    .onChanged { checkBox ->
+                        shouldDeleteCurrentBranch = checkBox.isSelected
                     }
             }
         }
