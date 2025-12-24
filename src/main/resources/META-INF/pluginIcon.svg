@@ -1,12 +1,99 @@
-<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M32.0845 7.94025V4H24.0203V7.9896H16.029V4H7.91553V7.94025H4V36H16.0044V32.0045C16.0058 30.9457 16.4274 29.9308 17.1766 29.1826C17.9258 28.4345 18.9412 28.0143 20 28.0143C21.0588 28.0143 22.0743 28.4345 22.8234 29.1826C23.5726 29.9308 23.9942 30.9457 23.9956 32.0045V36H36V7.94025H32.0845Z"
-          fill="url(#paint0_linear)"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none"
+     xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Advanced Git Features icon">
     <defs>
-        <linearGradient id="paint0_linear" x1="2.94192" y1="4.89955" x2="37.7772" y2="39.7345"
-                        gradientUnits="userSpaceOnUse">
-            <stop offset="0.15937" stop-color="#3BEA62"/>
-            <stop offset="0.5404" stop-color="#3C99CC"/>
-            <stop offset="0.93739" stop-color="#6B57FF"/>
+        <!-- Background -->
+        <linearGradient id="bg" x1="10" y1="6" x2="56" y2="60" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#2B2F3A"/>
+            <stop offset="0.55" stop-color="#1C2240"/>
+            <stop offset="1" stop-color="#0E1222"/>
         </linearGradient>
+
+        <!-- Accent glow -->
+        <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
+                        gradientTransform="translate(47 18) rotate(135) scale(30 30)">
+            <stop offset="0" stop-color="#6EE7FF" stop-opacity="0.35"/>
+            <stop offset="1" stop-color="#6EE7FF" stop-opacity="0"/>
+        </radialGradient>
+
+        <!-- Git red -->
+        <linearGradient id="gitRed" x1="20" y1="18" x2="46" y2="46" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#FF6A5C"/>
+            <stop offset="1" stop-color="#E11D48"/>
+        </linearGradient>
+
+        <!-- Strokes -->
+        <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.35"/>
+        </filter>
+
+        <filter id="inner" x="-20%" y="-20%" width="140%" height="140%">
+            <feOffset dx="0" dy="1"/>
+            <feGaussianBlur stdDeviation="1.5" result="blur"/>
+            <feComposite in="SourceGraphic" in2="blur" operator="arithmetic" k2="-1" k3="1"/>
+        </filter>
+
+        <!-- Clip for rounded tile -->
+        <clipPath id="clip">
+            <rect x="4.5" y="4.5" width="55" height="55" rx="13"/>
+        </clipPath>
     </defs>
+
+    <!-- Tile -->
+    <g clip-path="url(#clip)">
+        <rect x="4.5" y="4.5" width="55" height="55" rx="13" fill="url(#bg)"/>
+        <rect x="4.5" y="4.5" width="55" height="55" rx="13" fill="url(#glow)"/>
+        <!-- subtle grid -->
+        <g opacity="0.10">
+            <path d="M10 6V60" stroke="#A7B1FF" stroke-width="1"/>
+            <path d="M18 6V60" stroke="#A7B1FF" stroke-width="1"/>
+            <path d="M26 6V60" stroke="#A7B1FF" stroke-width="1"/>
+            <path d="M34 6V60" stroke="#A7B1FF" stroke-width="1"/>
+            <path d="M42 6V60" stroke="#A7B1FF" stroke-width="1"/>
+            <path d="M50 6V60" stroke="#A7B1FF" stroke-width="1"/>
+            <path d="M58 6V60" stroke="#A7B1FF" stroke-width="1"/>
+
+            <path d="M4 12H60" stroke="#A7B1FF" stroke-width="1"/>
+            <path d="M4 20H60" stroke="#A7B1FF" stroke-width="1"/>
+            <path d="M4 28H60" stroke="#A7B1FF" stroke-width="1"/>
+            <path d="M4 36H60" stroke="#A7B1FF" stroke-width="1"/>
+            <path d="M4 44H60" stroke="#A7B1FF" stroke-width="1"/>
+            <path d="M4 52H60" stroke="#A7B1FF" stroke-width="1"/>
+        </g>
+
+        <!-- Git "diamond" badge -->
+        <g filter="url(#softShadow)">
+            <path d="M33.6 14.6L48.7 29.7c0.8 0.8 0.8 2.1 0 2.9L33.6 47.7c-0.8 0.8-2.1 0.8-2.9 0L15.6 32.6c-0.8-0.8-0.8-2.1 0-2.9l15.1-15.1c0.8-0.8 2.1-0.8 2.9 0Z"
+                  fill="url(#gitRed)"/>
+            <!-- inner sheen -->
+            <path d="M31.4 16.2L46 30.8c0.6 0.6 0.6 1.6 0 2.2L31.4 47.6c-0.6 0.6-1.6 0.6-2.2 0L14.6 33c-0.6-0.6-0.6-1.6 0-2.2l14.6-14.6c0.6-0.6 1.6-0.6 2.2 0Z"
+                  fill="none" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="1.2"/>
+        </g>
+
+        <!-- Git branch path + nodes -->
+        <g filter="url(#inner)">
+            <path d="M27 22.5V39.5
+               M27 26.5C27 26.5 27 30 32 30C37 30 37 25 42 25"
+                  stroke="#FFFFFF" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="27" cy="22.5" r="3.1" fill="#FFFFFF"/>
+            <circle cx="27" cy="39.5" r="3.1" fill="#FFFFFF"/>
+            <circle cx="42" cy="25" r="3.1" fill="#FFFFFF"/>
+        </g>
+
+        <!-- Advanced cue: small gear + sparkle in top-right -->
+        <g transform="translate(42.8 12.2)" filter="url(#softShadow)">
+            <!-- gear -->
+            <path d="M9.2 5.9l1.5 0.8-0.5 1.7 1.2 1.2 1.7-0.5 0.8 1.5-1.4 1.1v1.7l1.4 1.1-0.8 1.5-1.7-0.5-1.2 1.2 0.5 1.7-1.5 0.8-1.1-1.4H6l-1.1 1.4-1.5-0.8 0.5-1.7-1.2-1.2-1.7 0.5-0.8-1.5 1.4-1.1V12l-1.4-1.1 0.8-1.5 1.7 0.5 1.2-1.2-0.5-1.7 1.5-0.8L6 5.6h1.7L9.2 5.9Z"
+                  fill="#7AE7FF" fill-opacity="0.85"/>
+            <circle cx="6.85" cy="12.85" r="2.35" fill="#0E1222" fill-opacity="0.75"/>
+            <circle cx="6.85" cy="12.85" r="1.2" fill="#7AE7FF" fill-opacity="0.9"/>
+            <!-- sparkle -->
+            <path d="M18.2 6.8l0.8 2.2 2.2 0.8-2.2 0.8-0.8 2.2-0.8-2.2-2.2-0.8 2.2-0.8 0.8-2.2Z"
+                  fill="#FFD166" fill-opacity="0.95"/>
+        </g>
+    </g>
+
+    <!-- Tile border -->
+    <rect x="4.5" y="4.5" width="55" height="55" rx="13"
+          stroke="#FFFFFF" stroke-opacity="0.12"/>
 </svg>
