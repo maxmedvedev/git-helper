@@ -18,7 +18,7 @@ import com.intellij.util.textCompletion.TextCompletionProviderBase
 import com.intellij.util.textCompletion.TextFieldWithCompletion
 import com.intellij.util.ui.JBUI
 import com.max.medvedev.githelper.GitHelperBundle
-import fleet.util.associateWithNotNull
+import git4idea.GitLocalBranch
 import git4idea.branch.GitBrancher
 import git4idea.repo.GitRepository
 import git4idea.repo.GitRepositoryManager
@@ -38,7 +38,11 @@ internal class GitCreateBranchFromMasterAction : DumbAwareAction() {
 
     private fun createNewBranch(data: Data.Enabled) {
         // Capture current branches before showing dialog
-        val currentBranches = data.repositories.associateWithNotNull { it.currentBranch }
+        val currentBranches = data.repositories
+            .map { it to it.currentBranch }
+            .mapNotNull { it.takeIf { it.second != null} as Pair<GitRepository, GitLocalBranch>? }
+            .toMap()
+
         val currentBranchName = currentBranches.values.firstOrNull()?.name
 
         val dialog = CreateBranchFromMasterDialog(data.project, data.repositories, data.defaultBranch, currentBranchName)
