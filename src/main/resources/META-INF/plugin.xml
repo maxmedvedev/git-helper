@@ -9,6 +9,10 @@
 
     <description><![CDATA[
         Adds several useful actions to Git IntelliJ support which are not available in the main Git plugin.
+        <ul>
+            <li>Create a branch from master</li>
+            <li>Delete the current branch and switch to another branch</li>
+        </ul>
     ]]></description>
 
     <depends>com.intellij.modules.platform</depends>
