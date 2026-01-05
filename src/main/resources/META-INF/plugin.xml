@@ -1,5 +1,5 @@
 <idea-plugin>
-    <id>com.max.medvedev.git-helper</id>
+    <id>max.medvedev.git-helper</id>
 
     <!-- Public plugin name should be written in Title Case.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-name -->
