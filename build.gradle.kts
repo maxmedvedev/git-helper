@@ -1,3 +1,5 @@
+import org.jetbrains.intellij.platform.gradle.TestFrameworkType
+
 plugins {
     id("java")
     id("org.jetbrains.kotlin.jvm") version "2.1.20"
@@ -16,17 +18,13 @@ repositories {
     }
 }
 
-// Read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin.html
 dependencies {
     intellijPlatform {
-        intellijIdea("2025.1")
-        testFramework(org.jetbrains.intellij.platform.gradle.TestFrameworkType.Platform)
+        intellijIdea("2025.3.1")
+        testFramework(TestFrameworkType.Platform)
 
         // Git support from the IDE:
         bundledPlugin("Git4Idea")
-
-        // Add plugin dependencies for compilation here, example:
-        // bundledPlugin("com.intellij.java")
     }
 }
 
@@ -41,7 +39,6 @@ intellijPlatform {
 }
 
 tasks {
-    // Set the JVM compatibility versions
     withType<JavaCompile> {
         sourceCompatibility = "17"
         targetCompatibility = "17"
