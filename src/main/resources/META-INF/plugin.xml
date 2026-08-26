@@ -12,10 +12,12 @@
         <ul>
             <li>Create a branch from master</li>
             <li>Delete the current branch and switch to another branch</li>
+            <li>Show all files affected by any commit selected in the Git log</li>
         </ul>
     ]]></description>
 
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.vcs</depends>
     <depends>Git4Idea</depends>
 
     <resource-bundle>messages.GitHelperBundle</resource-bundle>
@@ -30,6 +32,11 @@
         <action id="Git.DeleteCurrentBranchAndSwitch.External"
                 class="com.max.medvedev.githelper.checkoutAndDelete.GitDeleteCurrentBranchAndSwitchAction">
             <add-to-group group-id="Git.Branch" anchor="last"/>
+        </action>
+        <action id="GitHelper.Log.ShowAllAffected"
+                class="com.max.medvedev.githelper.showAffected.GitShowAllAffectedFromLogAction"
+                icon="AllIcons.Actions.ListChanges">
+            <add-to-group group-id="Vcs.Log.ContextMenu" anchor="last"/>
         </action>
 
     </actions>

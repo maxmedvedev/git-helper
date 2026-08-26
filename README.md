@@ -43,6 +43,34 @@ Safety considerations:
 
 ---
 
+### 3. Show All Affected Files (from the Git log)
+
+**Action ID:** `GitHelper.Log.ShowAllAffected`  
+**Location:** **Git** tool window → **Log** tab → right-click a commit → **Show All Affected Files**
+
+Opens a standalone changes browser listing every file touched by the selected commit, in the same
+"Paths Affected by Commit &lt;hash&gt;" dialog the IDE offers from file history.
+
+The built-in platform actions (`VcsHistory.ShowAllAffected`, `Vcs.Log.ShowAllAffected`) are only
+reachable from *file history*, where the dialog is scoped to a single file's revision. This action
+makes the same view available for any commit in the main log, with no file selection needed.
+
+Typical use cases:
+
+- Inspecting a whole commit in a large, resizable window instead of the log's cramped changes pane.
+- Reviewing several commits side by side, since the dialog is independent of the log's selection.
+
+Notes:
+
+- Enabled for a single selected commit; selecting several commits disables it.
+- **No default shortcut** is assigned, deliberately, so it cannot conflict with the platform's
+  `Show All Affected Files` binding (`Alt+Shift+A` / `Cmd+Ctrl+A`). Assign one in
+  **Settings / Preferences → Keymap** if you want it.
+- Merge commits may show no changes, since Git does not always compute a diff against a single
+  parent for them.
+
+---
+
 ## Installation
 
 ### From source (development)
@@ -89,6 +117,7 @@ You can also bind custom keyboard shortcuts:
 2. Search for the action IDs:
     - `Git.CreateBranchFromMaster`
     - `Git.DeleteCurrentBranchAndSwitch.External`
+    - `GitHelper.Log.ShowAllAffected`
 3. Assign shortcuts as desired.
 
 ---

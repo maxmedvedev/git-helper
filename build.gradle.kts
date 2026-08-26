@@ -6,7 +6,7 @@ plugins {
     id("org.jetbrains.intellij.platform") version "2.18.1"
 }
 
-val versionValue = "0.0.1"
+val versionValue = "0.0.2"
 
 group = "max.medvedev"
 version = versionValue
