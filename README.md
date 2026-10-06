@@ -49,7 +49,10 @@ Safety considerations:
 **Location:** **Git** tool window → **Log** tab → right-click a commit → **Show All Affected Files**
 
 Opens a standalone changes browser listing every file touched by the selected commit, in the same
-"Paths Affected by Commit &lt;hash&gt;" dialog the IDE offers from file history.
+"Paths Affected by Commit &lt;hash&gt;" dialog the IDE offers from file history. The lower pane shows the
+full commit presentation — hash, author, date, containing branches, tags and external statuses —
+rendered with the same `CommitDetailsPanel` the Log tool window and the file history panel use, so
+commit-hash references in the message are clickable and jump to that commit in the main log.
 
 The built-in platform actions (`VcsHistory.ShowAllAffected`, `Vcs.Log.ShowAllAffected`) are only
 reachable from *file history*, where the dialog is scoped to a single file's revision. This action
@@ -68,6 +71,8 @@ Notes:
   **Settings / Preferences → Keymap** if you want it.
 - Merge commits may show no changes, since Git does not always compute a diff against a single
   parent for them.
+- Requires IDE build **263.4732** (2026.3) or newer: the commit-details pane relies on platform API
+  that landed after the 263.3889 EAPs.
 
 ---
 
@@ -124,10 +129,11 @@ You can also bind custom keyboard shortcuts:
 
 ## Requirements
 
-- **IntelliJ Platform:** Compatible with IDEs that include the Git4Idea plugin (e.g., IntelliJ IDEA Community/Ultimate).
+- **IntelliJ Platform:** Build **263.4732** (2026.3) or newer, in an IDE that includes the Git4Idea
+  plugin (e.g., IntelliJ IDEA Community/Ultimate).
 - **Git Integration:** Built‑in Git support must be enabled.
 - **JDK:** Project is built against Java 21.
-- **Kotlin:** Uses Kotlin 2.3 for plugin sources.
+- **Kotlin:** Uses Kotlin 2.4 for plugin sources, matching the Kotlin the 263 platform is built with.
 
 Exact IDE version compatibility is controlled by the plugin’s Gradle and `plugin.xml` configuration.
 
