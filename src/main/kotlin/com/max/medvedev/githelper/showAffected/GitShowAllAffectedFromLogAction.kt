@@ -5,9 +5,6 @@ import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.project.DumbAwareAction
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.vcs.changes.ui.ChangeListViewerDialog
-import com.intellij.openapi.vcs.changes.ui.LoadingCommittedChangeListPanel
-import com.intellij.openapi.vcs.changes.ui.LoadingCommittedChangeListPanel.ChangelistData
 import com.intellij.vcs.log.VcsFullCommitDetails
 import com.intellij.vcs.log.VcsLogCommitSelection
 import com.intellij.vcs.log.VcsLogDataKeys
@@ -18,7 +15,6 @@ import com.intellij.vcs.log.ui.VcsLogInternalDataKeys
 import com.intellij.vcs.log.ui.details.CommitDetailsListPanel
 import com.intellij.vcs.log.ui.details.commit.CommitDetailsPanel
 import com.intellij.vcs.log.ui.frame.VcsLogCommitSelectionListenerForDetails
-import com.intellij.vcs.log.util.VcsLogUtil
 import com.max.medvedev.githelper.GitHelperBundle
 import org.jetbrains.annotations.Nls
 
@@ -29,8 +25,10 @@ import org.jetbrains.annotations.Nls
  * `Vcs.Log.ShowAllAffected`); this action brings it to the main log, where a whole commit is selected.
  * Modelled after `com.intellij.vcs.log.ui.actions.history.ShowAllAffectedFromHistoryAction`: the change
  * list is built from the details the log already loads, so no extra Git process is needed, and the
- * bottom half of the dialog is a [CommitDetailsPanel] — the same commit presentation the Log tool
+ * bottom part of the panel is a `CommitDetailsPanel` — the same commit presentation the Log tool
  * window and the file history panel show, with the hash, the author, the date, the branches and the tags.
+ *
+ * The changes browser itself is built by [showCommitChanges], which keeps all the internal platform API in one place.
  */
 internal class GitShowAllAffectedFromLogAction : DumbAwareAction() {
     override fun getActionUpdateThread(): ActionUpdateThread = ActionUpdateThread.BGT
@@ -59,25 +57,11 @@ internal class GitShowAllAffectedFromLogAction : DumbAwareAction() {
 
         // Loads on a pooled thread and calls back on the EDT; the cached details may still be a placeholder.
         data.selection.requestFullDetails { details ->
-            details.singleOrNull()?.let { detail -> showAffectedFiles(data.project, data.logData, detail) }
+            // The action is commit-scoped rather than file-scoped, so there is no path to pre-select.
+            details.singleOrNull()?.let { detail ->
+                showCommitChanges(data.project, data.logData, detail)
+            }
         }
-    }
-
-    private fun showAffectedFiles(project: Project, logData: VcsLogData, detail: VcsFullCommitDetails) {
-        val title = GitHelperBundle.message(
-            "action.GitHelper.Log.ShowAllAffected.dialog.title",
-            detail.id.toShortString(),
-        )
-
-        val panel = LoadingCommittedChangeListPanel(project) { parent ->
-            createCommitDetailsPanel(project, logData, detail, parent)
-        }
-        panel.setCommitDetailsProportion(DETAILS_PROPORTION)
-        // The action is commit-scoped rather than file-scoped, so there is no path to pre-select.
-        panel.loadChangesInBackground { ChangelistData(VcsLogUtil.createCommittedChangeList(detail), null) }
-
-        // The dialog owns the panel, which in turn owns the details panel and its selection listener.
-        ChangeListViewerDialog.show(project, title, panel)
     }
 
     /**

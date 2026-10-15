@@ -59,8 +59,9 @@ intellijPlatform {
         }
 
         // The commit-details wiring deliberately calls @ApiStatus.Internal platform API — the same
-        // API the platform's own ShowAllAffectedFromHistoryAction uses. Keep those usages reported,
-        // but do not let them fail the build.
+        // API the platform's own ShowAllAffectedFromHistoryAction uses. All of it is confined to
+        // showAffected/ShowCommitChanges.kt, whose two functions are candidates for public platform API.
+        // Keep those usages reported, but do not let them fail the build.
         // This is the plugin's default set with INTERNAL_API_USAGES dropped.
         failureLevel = listOf(
             FailureLevel.COMPATIBILITY_PROBLEMS,
