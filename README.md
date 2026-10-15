@@ -43,7 +43,25 @@ Safety considerations:
 
 ---
 
-### 3. Show All Affected Files (from the Git log)
+### 3. Checkout and Rebase onto `master`
+
+**Action ID:** `Git.CheckoutAndRebaseOnMaster`  
+**Location:** Git branch popup → any local branch → **Checkout and Rebase onto master**
+
+Checks out the selected local branch and rebases it onto `master` (or `main`) in one step — the
+equivalent of `git rebase master <branch>`. The platform's own **Checkout and Rebase onto Current**
+only rebases onto whatever is checked out; this action always targets the default branch, so you
+don't have to switch to `master` first.
+
+Notes:
+
+- Available for local branches only, including the current one; hidden for `master`/`main` itself.
+- Requires the same default branch (`master` preferred, then `main`) in every repository.
+- Rebase conflicts, local changes and notifications are handled by IntelliJ's regular rebase flow.
+
+---
+
+### 4. Show All Affected Files (from the Git log)
 
 **Action ID:** `GitHelper.Log.ShowAllAffected`  
 **Location:** **Git** tool window → **Log** tab → right-click a commit → **Show All Affected Files**
@@ -110,6 +128,7 @@ After installing the plugin and restarting IntelliJ IDEA:
 
     - **Create Branch from Master** (or equivalent wording mapped by your localization).
     - **Delete Current Branch and Switch** within the Git branches context.
+    - **Checkout and Rebase onto master** in any local branch's submenu.
 
 You can also bind custom keyboard shortcuts:
 
@@ -117,6 +136,7 @@ You can also bind custom keyboard shortcuts:
 2. Search for the action IDs:
     - `Git.CreateBranchFromMaster`
     - `Git.DeleteCurrentBranchAndSwitch.External`
+    - `Git.CheckoutAndRebaseOnMaster`
     - `GitHelper.Log.ShowAllAffected`
 3. Assign shortcuts as desired.
 

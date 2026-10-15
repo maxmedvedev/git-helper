@@ -12,6 +12,7 @@
         <ul>
             <li>Create a branch from master</li>
             <li>Delete the current branch and switch to another branch</li>
+            <li>Checkout a branch and rebase it onto master in one step</li>
             <li>Show all files affected by any commit selected in the Git log</li>
             <li>Open the <code>.git/config</code> file of the repository in the editor</li>
         </ul>
@@ -32,6 +33,10 @@
                 class="com.max.medvedev.githelper.newBranch.GitCreateBranchFromMasterAction"/>
         <action id="Git.DeleteCurrentBranchAndSwitch.External"
                 class="com.max.medvedev.githelper.checkoutAndDelete.GitDeleteCurrentBranchAndSwitchAction">
+            <add-to-group group-id="Git.Branch" anchor="last"/>
+        </action>
+        <action id="Git.CheckoutAndRebaseOnMaster"
+                class="com.max.medvedev.githelper.rebaseOnMaster.GitCheckoutAndRebaseOnMasterAction">
             <add-to-group group-id="Git.Branch" anchor="last"/>
         </action>
         <action id="GitHelper.Log.ShowAllAffected"
