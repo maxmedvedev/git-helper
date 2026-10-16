@@ -61,7 +61,26 @@ Notes:
 
 ---
 
-### 4. Show All Affected Files (from the Git log)
+### 4. Rebase onto Fresh `master`
+
+**Action ID:** `Git.RebaseOnFreshMaster`  
+**Location:** **Git** main menu → **Rebase onto Fresh master**
+
+Fetches `master` (or `main`) from its upstream remote and rebases the current branch onto it — the
+equivalent of `git fetch origin master:master && git rebase master`. The local `master` is updated too,
+so you don't have to check it out and pull first.
+
+Notes:
+
+- The default branch must have an upstream (e.g. `origin/master`); the action is hidden otherwise.
+- Hidden when `master`/`main` itself is checked out or HEAD is detached.
+- Fetching is fast-forward only: if the local `master` has diverged from the remote, the fetch fails
+  with a notification and no rebase happens.
+- Rebase conflicts, local changes and notifications are handled by IntelliJ's regular rebase flow.
+
+---
+
+### 5. Show All Affected Files (from the Git log)
 
 **Action ID:** `GitHelper.Log.ShowAllAffected`  
 **Location:** **Git** tool window → **Log** tab → right-click a commit → **Show All Affected Files**
@@ -129,6 +148,7 @@ After installing the plugin and restarting IntelliJ IDEA:
     - **Create Branch from Master** (or equivalent wording mapped by your localization).
     - **Delete Current Branch and Switch** within the Git branches context.
     - **Checkout and Rebase onto master** in any local branch's submenu.
+    - **Rebase onto Fresh master** in the **Git** main menu.
 
 You can also bind custom keyboard shortcuts:
 
@@ -137,6 +157,7 @@ You can also bind custom keyboard shortcuts:
     - `Git.CreateBranchFromMaster`
     - `Git.DeleteCurrentBranchAndSwitch.External`
     - `Git.CheckoutAndRebaseOnMaster`
+    - `Git.RebaseOnFreshMaster`
     - `GitHelper.Log.ShowAllAffected`
 3. Assign shortcuts as desired.
 
