@@ -80,7 +80,25 @@ Notes:
 
 ---
 
-### 5. Show All Affected Files (from the Git log)
+### 5. Delete Previous Branch
+
+**Action ID:** `Git.DeletePreviousBranch`  
+**Location:** **Git** main menu → **Delete Previous Branch**
+
+Deletes the branch that was checked out before the current one — the branch `git checkout -` would
+switch to (`@{-1}`). Handy right after switching from a merged feature branch back to `master`.
+
+Notes:
+
+- The previous branch is taken from Git's reflog, so checkouts made from the terminal count too.
+- Refused with a notification if there is no previous branch, it no longer exists, it is the current
+  branch, it is protected, or repositories disagree on which branch was previous.
+- Deletion goes through IntelliJ's regular flow, so unmerged branches ask for confirmation and the
+  notification offers **Restore**.
+
+---
+
+### 6. Show All Affected Files (from the Git log)
 
 **Action ID:** `GitHelper.Log.ShowAllAffected`  
 **Location:** **Git** tool window → **Log** tab → right-click a commit → **Show All Affected Files**
@@ -149,6 +167,7 @@ After installing the plugin and restarting IntelliJ IDEA:
     - **Delete Current Branch and Switch** within the Git branches context.
     - **Checkout and Rebase onto master** in any local branch's submenu.
     - **Rebase onto Fresh master** in the **Git** main menu.
+    - **Delete Previous Branch** in the **Git** main menu.
 
 You can also bind custom keyboard shortcuts:
 
@@ -158,6 +177,7 @@ You can also bind custom keyboard shortcuts:
     - `Git.DeleteCurrentBranchAndSwitch.External`
     - `Git.CheckoutAndRebaseOnMaster`
     - `Git.RebaseOnFreshMaster`
+    - `Git.DeletePreviousBranch`
     - `GitHelper.Log.ShowAllAffected`
 3. Assign shortcuts as desired.
 
