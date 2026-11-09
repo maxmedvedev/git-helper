@@ -14,12 +14,13 @@ import com.intellij.ide.starter.driver.engine.DriverRunner
 import com.intellij.ide.starter.driver.engine.runIdeWithDriver
 import com.intellij.ide.starter.ide.IDERemDevTestContext
 import com.intellij.ide.starter.ide.IDETestContext
-import com.intellij.ide.starter.ide.IdeProductProvider
+import com.intellij.ide.starter.models.IdeInfo
 import com.intellij.ide.starter.models.TestCase
 import com.intellij.ide.starter.path.GlobalPaths
 import com.intellij.ide.starter.plugins.PluginConfigurator
 import com.intellij.ide.starter.project.LocalProjectInfo
 import com.intellij.ide.starter.runner.Starter
+import com.intellij.tools.ide.starter.product.idea.ultimate.IdeaUltimate
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.kodein.di.DI
 import org.kodein.di.bindSingleton
@@ -104,7 +105,7 @@ fun runIdeWithPlugin(
 }
 
 private fun newContext(testName: String, projectDir: Path): IDETestContext {
-    val testCase = TestCase(IdeProductProvider.IU, LocalProjectInfo(projectDir))
+    val testCase = TestCase(IdeInfo.IdeaUltimate, LocalProjectInfo(projectDir))
         .withBuildNumber(systemProperty("e2e.ide.build"))
     val context = Starter.newContext(testName, testCase)
     val pluginZip = Path(systemProperty("path.to.build.plugin"))

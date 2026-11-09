@@ -33,8 +33,9 @@ monolith and in split mode (a backend and a JetBrains Client as separate process
 - Not `testFramework(TestFrameworkType.Starter)`: it excludes everything the IDE bundles (the stdlib, coroutines) from
   Starter's artifacts, as if the tests ran inside the IDE. The build declares the Starter and Driver artifacts directly
   at the platform build number and excludes the original `kotlinx-coroutines-core` (Starter uses the IntelliJ fork).
-- On 253 the products (`IdeProductProvider.IU`) are in `ide-starter-squashed`; `ide-starter-product-idea-ultimate`
-  isn't published for it.
+- Since 263 the products are separate artifacts: `IdeInfo.IdeaUltimate` is in `ide-starter-product-idea-ultimate`
+  (on 253 they were in `ide-starter-squashed` as `IdeProductProvider.IU`).
+- Starter 263 is built for Java 25, so the e2e source set compiles to Java 25 (the plugin itself stays on 21).
 - Starter's JUnit 5 extensions are registered by `ServiceLoader`, so `src/e2eTest/resources/junit-platform.properties`
   turns on extension autodetection.
 
@@ -59,7 +60,7 @@ no indicators for 2 s, rather than the SDK's `waitForIndicators`, which waits 10
 - The plugin depends on the Git plugin, so in split mode its actions run on the backend; `runGitHelperAction` invokes
   them there (`invokeGlobalBackendAction`) in both modes, with the project frame as the context.
 - Notifications are read from the backend's `ActionCenter` (`notificationTexts`, `waitForNotification`).
-- Split mode: the 253 Starter has no `IdeRunMode`. `E2eIde.kt` defines one that sets the global
+- Split mode: the 253 Starter had no `IdeRunMode` (263 has `com.intellij.ide.starter.ide.IdeRunMode`). `E2eIde.kt` defines one that sets the global
   `ConfigurationStorage.splitMode` (Starter's test container reads it, and creates the frontend's context) and binds
   `RemDevDriverRunner` in Starter's DI container (the Driver runner defaults to `LocalDriverRunner`, which starts only
   the backend, and the Driver then talks to it). `runIdeWithPlugin` resets both to the monolith after each run.

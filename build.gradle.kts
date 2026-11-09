@@ -4,8 +4,8 @@ import java.time.Duration
 
 plugins {
     id("java")
-    id("org.jetbrains.kotlin.jvm") version "2.1.20"
-    id("org.jetbrains.intellij.platform") version "2.18.1"
+    id("org.jetbrains.kotlin.jvm") version "2.4.21"
+    id("org.jetbrains.intellij.platform") version "2.20.0"
 }
 
 val versionValue = "0.0.2"
@@ -22,7 +22,7 @@ repositories {
 
 dependencies {
     intellijPlatform {
-        intellijIdea("2025.3.1")
+        intellijIdea("2026.3")
         testFramework(TestFrameworkType.Platform)
 
         // Git support from the IDE:
@@ -34,15 +34,16 @@ dependencies {
 // process, and the tests drive it with the UI Driver. Their classpath has only Starter and the Driver, no platform.
 val e2eTest: SourceSet = sourceSets.create("e2eTest")
 
-// The build of the platform above (`intellijIdea("2025.3.1")`): Starter and the Driver are published per platform build
-val starterVersion = "253.29346.138"
+// The build of the platform above (`intellijIdea("2026.3")`): Starter and the Driver are published per platform build
+val starterVersion = "263.7307.200"
 
 dependencies {
-    // The products (`IdeProductProvider.IU`) are in `ide-starter-squashed` on 253, not in `ide-starter-product-*` yet.
+    // The products are separate artifacts since 263: `IdeInfo.IdeaUltimate` is in `ide-starter-product-idea-ultimate`.
     // Not `testFramework(TestFrameworkType.Starter)`: it excludes from these artifacts everything the IDE bundles (the
     // stdlib, coroutines, JUnit 4), as if the tests ran in the IDE, but Starter runs outside of it.
     for (artifact in listOf(
         "ide-starter-squashed",
+        "ide-starter-product-idea-ultimate",
         "ide-starter-junit5",
         "ide-starter-driver",
     )) {
@@ -58,6 +59,16 @@ dependencies {
     e2eTest.implementationConfigurationName(platform("org.junit:junit-bom:5.13.4"))
     e2eTest.implementationConfigurationName("org.junit.jupiter:junit-jupiter")
     e2eTest.runtimeOnlyConfigurationName("org.junit.platform:junit-platform-launcher")
+}
+
+// Starter 263 is built for Java 25, and its inline functions (`Git.kt`) can't be inlined into Java 21 bytecode
+tasks.named<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>(e2eTest.getCompileTaskName("kotlin")) {
+    compilerOptions.jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_25)
+}
+tasks.named<JavaCompile>(e2eTest.compileJavaTaskName) {
+    javaCompiler = javaToolchains.compilerFor { languageVersion = JavaLanguageVersion.of(25) }
+    sourceCompatibility = "25"
+    targetCompatibility = "25"
 }
 
 // Starter uses the IntelliJ fork of coroutines (`org.jetbrains.intellij.deps.kotlinx`); other libraries bring the
