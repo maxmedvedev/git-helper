@@ -113,7 +113,7 @@ tasks.register<Test>("e2eTest") {
 intellijPlatform {
     pluginConfiguration {
         ideaVersion {
-            sinceBuild = "251.1"
+            sinceBuild = "263.7307"
         }
 
         version = versionValue

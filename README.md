@@ -104,7 +104,8 @@ Notes:
 **Location:** **Git** tool window → **Log** tab → right-click a commit → **Show All Affected Files**
 
 Opens a standalone changes browser listing every file touched by the selected commit, in the same
-"Paths Affected by Commit &lt;hash&gt;" dialog the IDE offers from file history.
+"Paths Affected by Commit &lt;hash&gt;" view the IDE offers from file history, with the log's commit
+details (hash, author, date, branches, tags) under the file tree.
 
 The built-in platform actions (`VcsHistory.ShowAllAffected`, `Vcs.Log.ShowAllAffected`) are only
 reachable from *file history*, where the dialog is scoped to a single file's revision. This action
