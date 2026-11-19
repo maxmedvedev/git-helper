@@ -28,6 +28,7 @@ dependencies {
         // Git support from the IDE:
         bundledPlugin("Git4Idea")
     }
+    testImplementation("junit:junit:4.13.2")
 }
 
 // End-to-end tests (`src/e2eTest`, docs/e2e-tests.md): IDE Starter starts a real IDE with the plugin zip as a separate

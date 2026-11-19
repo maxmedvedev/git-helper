@@ -127,6 +127,27 @@ Notes:
 
 ---
 
+### 7. Commit Hash Links in the Terminal
+
+**Extension:** `com.intellij.invisibleHyperlinkFilterProvider`  
+**Location:** the terminal, including the Air TUI → hover a commit hash → click it
+
+A commit hash in the terminal output becomes a link when the mouse pointer is over it. A click
+shows the commit in the Git log.
+
+Notes:
+
+- A hash is a word of 7 to 40 hexadecimal digits with at least one letter. A digit-only word, or
+  hex inside a path, a URL, a UUID or `0x…`, is not linked.
+- A full hash is linked only when the log holds it. A short hash is linked by its shape, and the
+  click asks Git to expand it.
+- The click searches the log of the terminal project first, then the logs of the other open
+  projects. An Air Agent Sessions window has no repository of its own, so its links use the log of
+  the project that has the repository.
+- The link needs the terminal hover links (`terminal.hyperlinks.on.hover`, on by default).
+
+---
+
 ## Installation
 
 ### From source (development)

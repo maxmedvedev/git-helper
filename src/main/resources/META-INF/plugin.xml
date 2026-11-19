@@ -17,6 +17,7 @@
             <li>Delete the previously checked out branch</li>
             <li>Show all files affected by any commit selected in the Git log</li>
             <li>Open the <code>.git/config</code> file of the repository in the editor</li>
+            <li>Open a commit hash in the terminal output in the Git log</li>
         </ul>
     ]]></description>
 
@@ -27,7 +28,8 @@
     <resource-bundle>messages.GitHelperBundle</resource-bundle>
 
     <extensions defaultExtensionNs="com.intellij">
-
+        <invisibleHyperlinkFilterProvider
+                implementation="com.max.medvedev.githelper.commitLinks.CommitHashFilterProvider"/>
     </extensions>
 
     <actions resource-bundle="messages.GitHelperBundle">
